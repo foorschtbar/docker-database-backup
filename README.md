@@ -101,11 +101,14 @@ version: '3.8'
 services:
   db-backup: # backup service
     image: ghcr.io/jan-di/database-backup
+    container_name: db-backup
+    restart: unless-stopped
     environment:
       - TZ=Europe/Berlin
-      - SCHEDULE=600
+      - SCHEDULE=0 * * * *
       - GLOBAL_PASSWORD=secret-password
     volumes:
+      - ./dump:/dump
       - /var/run/docker.sock:/var/run/docker.sock
 
   database1: # well known database image
